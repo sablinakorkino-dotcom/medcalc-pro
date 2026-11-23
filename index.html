@@ -3069,10 +3069,10 @@
     <!-- ===================================================================== -->
     <section id="panel-checklist203n" class="calc-panel hidden animate-panel space-y-6">
       <style>
-        #panel-checklist203n > .audit203-banner ~ div { display: none !important; }
+        #panel-checklist203n > .audit203-banner ~ div:not(#audit203-2025) { display: none !important; }
       </style>
       <div class="audit203-banner bg-amber-50 border-2 border-amber-400 rounded-2xl p-5 sm:p-6 space-y-4">
-        <div class="flex items-center gap-2 text-amber-900 font-extrabold text-lg">⚠️ Раздел временно выведен из клинического использования</div>
+        <div class="flex items-center gap-2 text-amber-900 font-extrabold text-lg">⚠️ Архивные критерии 2017 года отключены</div>
         <p class="text-sm leading-relaxed text-amber-950">В этой версии MedCalc Pro сохранён набор критериев из приказа Минздрава России от 10.05.2017 № 203н. Этот приказ утратил силу с 1 сентября 2025 года. Поэтому содержащиеся ниже 62 таблицы нельзя использовать для оценки качества медицинской помощи, внутреннего аудита или обоснования дефектов.</p>
         <div class="bg-white/80 rounded-xl p-4 space-y-2 text-sm text-slate-800">
           <p><strong>Действующий документ:</strong> приказ Минздрава России от 14.04.2025 № 203н «Об утверждении критериев оценки качества медицинской помощи», зарегистрирован в Минюсте России 28.05.2025 № 82382. Действует с 01.09.2025 по 01.09.2031.</p>
@@ -3083,7 +3083,18 @@
           <a href="https://www.nsi.ru/upload/normativ-doc/203N_prikaz.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 rounded-xl bg-amber-700 hover:bg-amber-800 text-white text-sm font-semibold">Открыть текст приказа № 203н (2025)</a>
           <a href="https://www.consultant.ru/law/hotdocs/89472.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 rounded-xl bg-white border border-amber-300 text-amber-900 text-sm font-semibold">Информация о вступлении в силу</a>
         </div>
-        <p class="text-xs text-amber-900">Статус раздела: архивный материал · требуется полная замена критериев по действующему приказу · не является юридическим заключением.</p>
+        <p class="text-xs text-amber-900">Ниже размещён интерактивный проверенный фрагмент нового приказа. Полная база критериев пока не перенесена.</p>
+      </div>
+      <div id="audit203-2025" class="bg-white rounded-2xl border border-sky-200 p-5 sm:p-6 space-y-4">
+        <h2 class="text-xl font-extrabold text-slate-900">Интерактивные критерии — приказ от 14.04.2025 № 203н</h2>
+        <p class="text-sm text-amber-900 bg-amber-50 p-3 rounded-xl">Проверенный фрагмент нового приказа, а не полный перечень. Пока доступен подраздел 1.58 (шигеллёз). Остальные нозологии требуют дословной сверки с нормативным текстом; архив 2017 года не используется.</p>
+        <label for="audit203-disease" class="block text-sm font-semibold">Нозология / подраздел</label>
+        <select id="audit203-disease" class="w-full border rounded-xl p-3" onchange="audit203Render()"><option value="shig">1.58. Шигеллёз — первичная медико-санитарная помощь взрослым и детям (A03, A03.0–A03.3, A03.8, A03.9, A06.0)</option></select>
+        <div id="audit203-items" class="space-y-3"></div>
+        <div class="flex flex-wrap gap-2"><button type="button" class="px-4 py-2 rounded-xl bg-sky-700 text-white" onclick="audit203Report()">Сформировать протокол</button><button type="button" class="px-4 py-2 rounded-xl bg-slate-200" onclick="audit203Reset()">Сбросить</button><button type="button" class="px-4 py-2 rounded-xl bg-slate-200" onclick="audit203Copy()">Копировать</button></div>
+        <textarea id="audit203-output" aria-label="Протокол оценки" class="w-full border rounded-xl p-3 text-sm" rows="8" readonly placeholder="Протокол появится здесь"></textarea>
+        <p class="text-xs text-slate-500">Вариант «Не применимо» — вспомогательная отметка интерфейса, не отдельный ответ в тексте приказа. «Нет» не означает автоматически дефект помощи. Оценку проводит специалист с учётом применимости и обстоятельств случая.</p>
+        <a class="text-sky-700 underline text-sm" href="https://www.kontur-extern.ru/info/normativ/document/1/502354-prikaz-minzdrava-rf-ot-14-04-2025-n-203n" target="_blank" rel="noopener noreferrer">Сверить с полным текстом приказа</a>
       </div>
       <!-- Шапка и выбор нозологии по системам органов -->
       <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5 sm:p-6 space-y-5">
@@ -7627,6 +7638,39 @@ const get=id=>document.getElementById(id);
 const mappings={admission:[['pw-age','adm-age'],['pw-weight','adm-weight'],['pw-height','adm-height']],discharge:[['pw-code','doc-discharge-patient'],['pw-dob','doc-discharge-dob'],['pw-admit','doc-discharge-admit']]};
 function transfer(pairs,reverse){let moved=0,skipped=0;for(const [a,b] of pairs){const src=get(reverse?b:a),dst=get(reverse?a:b);if(!src||!dst||!src.value.trim())continue;if(dst.value.trim()&&dst.value!==src.value){skipped++;continue;}if(dst.value===src.value)continue;dst.value=src.value;dst.dispatchEvent(new Event('input',{bubbles:true}));dst.dispatchEvent(new Event('change',{bubbles:true}));moved++;}get('pw-message').textContent=`Перенесено полей: ${moved}. Не перезаписано заполненных полей: ${skipped}. Перепроверьте данные пациента.`;}
 document.addEventListener('DOMContentLoaded',()=>{if(!get('patient-workspace'))return;get('pw-to-admission').addEventListener('click',()=>transfer(mappings.admission,false));get('pw-to-discharge').addEventListener('click',()=>transfer(mappings.discharge,false));get('pw-from-admission').addEventListener('click',()=>transfer(mappings.admission,true));get('pw-clear').addEventListener('click',()=>{for(const id of ['pw-code','pw-dob','pw-admit','pw-age','pw-weight','pw-height'])get(id).value='';get('pw-message').textContent='Карточка очищена. Поля в уже заполненных документах не изменены.';});});
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  const items=[
+    'Выполнен общий (клинический) анализ крови расширенный',
+    'Выполнено копрологическое исследование',
+    'Выполнено микробиологическое (культуральное) исследование кала или ректального мазка или рвотных масс и (или) промывных вод желудка на микроорганизмы рода шигелла (Shigella spp.), сальмонелла (Salmonella spp.)',
+    'Выполнена оценка степени тяжести синдрома дегидратации с помощью вопросника, оценочной шкалы (пациентам в возрасте до 18 лет)'
+  ];
+  const $=id=>document.getElementById(id);
+  window.audit203Render=function(){
+    const host=$('audit203-items'); if(!host)return;
+    host.replaceChildren();
+    items.forEach((label,i)=>{
+      const row=document.createElement('div');row.className='border rounded-xl p-3 space-y-2';
+      const title=document.createElement('div');title.className='text-sm font-medium';title.textContent=(i+1)+'. '+label;row.appendChild(title);
+      const select=document.createElement('select');select.className='w-full border rounded-lg p-2 text-sm';select.id='audit203-answer-'+i;
+      [['','Не оценено'],['Да','Да'],['Нет','Нет'],['Не применимо','Не применимо (обоснование обязательно)']].forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;select.appendChild(o)});
+      select.addEventListener('change',()=>{$('audit203-output').value=''});row.appendChild(select);host.appendChild(row);
+    });
+    $('audit203-output').value='';
+  };
+  window.audit203Reset=()=>audit203Render();
+  window.audit203Report=function(){
+    const lines=['ПРИКАЗ МИНЗДРАВА РОССИИ ОТ 14.04.2025 № 203н','Подраздел 1.58. Шигеллёз — первичная медико-санитарная помощь взрослым и детям','Дата формирования: '+new Date().toLocaleDateString('ru-RU'),''];
+    items.forEach((t,i)=>lines.push((i+1)+'. '+t+' — '+($('audit203-answer-'+i)?.value||'Не оценено')));
+    lines.push('','Примечание: для отметок «Не применимо» требуется отдельное обоснование в медицинской документации.','Черновик для проверки врачом; не является автоматическим заключением о качестве медицинской помощи.');
+    $('audit203-output').value=lines.join('\n');
+  };
+  window.audit203Copy=async function(){const t=$('audit203-output').value;if(!t)return;try{await navigator.clipboard.writeText(t)}catch(e){$('audit203-output').select();document.execCommand('copy')}};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',audit203Render);else audit203Render();
 })();
 </script>
 </body>
