@@ -436,7 +436,7 @@ function copyEl(id){
   if(!el) return;
   el.select();
   el.setSelectionRange(0,99999);
-  try{ document.execCommand('copy'); }catch(e){}
+  try{ var copied = document.execCommand('copy'); if(!copied) console.warn('Clipboard copy command was rejected by the browser.'); }catch(e){ console.error('Clipboard copy failed:',e); }
   var t = document.getElementById('toast');
   if(t){ t.classList.add('on'); setTimeout(function(){ t.classList.remove('on'); }, 1800); }
 }
