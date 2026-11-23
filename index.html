@@ -7658,14 +7658,17 @@ document.addEventListener('DOMContentLoaded',()=>{if(!get('patient-workspace'))r
       const title=document.createElement('div');title.className='text-sm font-medium';title.textContent=(i+1)+'. '+label;row.appendChild(title);
       const select=document.createElement('select');select.className='w-full border rounded-lg p-2 text-sm';select.id='audit203-answer-'+i;
       [['','Не оценено'],['Да','Да'],['Нет','Нет'],['Не применимо','Не применимо (обоснование обязательно)']].forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;select.appendChild(o)});
-      select.addEventListener('change',()=>{$('audit203-output').value=''});row.appendChild(select);host.appendChild(row);
+      select.addEventListener('change',()=>{ $('audit203-output').value=''; reason.hidden=select.value!=='Не применимо'; });row.appendChild(select);
+      const reason=document.createElement('textarea');reason.className='w-full border rounded-lg p-2 text-sm';reason.placeholder='Обязательное обоснование неприменимости';reason.setAttribute('aria-label','Обоснование неприменимости критерия '+(i+1));reason.rows=2;reason.hidden=true;reason.id='audit203-reason-'+i;reason.addEventListener('input',()=>{$('audit203-output').value=''});row.appendChild(reason);host.appendChild(row);
     });
     $('audit203-output').value='';
   };
   window.audit203Reset=()=>audit203Render();
   window.audit203Report=function(){
     const lines=['ПРИКАЗ МИНЗДРАВА РОССИИ ОТ 14.04.2025 № 203н','Подраздел 1.58. Шигеллёз — первичная медико-санитарная помощь взрослым и детям','Дата формирования: '+new Date().toLocaleDateString('ru-RU'),''];
-    items.forEach((t,i)=>lines.push((i+1)+'. '+t+' — '+($('audit203-answer-'+i)?.value||'Не оценено')));
+    let missing=false;
+    items.forEach((t,i)=>{const v=$('audit203-answer-'+i)?.value||'Не оценено';const reason=$('audit203-reason-'+i)?.value.trim()||'';if(v==='Не применимо'&&!reason)missing=true;lines.push((i+1)+'. '+t+' — '+v+(reason?' (обоснование: '+reason+')':''));});
+    if(missing){$('audit203-output').value='Укажите обоснование для каждого ответа «Не применимо» перед формированием протокола.';return;}
     lines.push('','Примечание: для отметок «Не применимо» требуется отдельное обоснование в медицинской документации.','Черновик для проверки врачом; не является автоматическим заключением о качестве медицинской помощи.');
     $('audit203-output').value=lines.join('\n');
   };
