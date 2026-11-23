@@ -1,76 +1,849 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2907
-\cocoatextscaling1\cocoaplatform1{\fonttbl\f0\fnil\fcharset0 .SFUI-Heavy;\f1\fnil\fcharset0 .SFUI-Regular_wdth_opsz110000_GRAD_wght2580000;\f2\fnil\fcharset0 .SFUI-Regular;
-\f3\fnil\fcharset0 .SFUI-Bold;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red15\green23\blue42;\red100\green116\blue139;
-\red248\green250\blue252;\red120\green53\blue15;\red254\green243\blue199;\red2\green132\blue199;\red71\green85\blue105;
-\red241\green245\blue249;\red12\green74\blue110;\red240\green249\blue255;}
-{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\cssrgb\c5882\c9020\c16471;\cssrgb\c39216\c45490\c54510;
-\cssrgb\c97255\c98039\c98824;\cssrgb\c47059\c20784\c5882;\cssrgb\c99608\c95294\c78039;\cssrgb\c784\c51765\c78039;\cssrgb\c27843\c33333\c41176;
-\cssrgb\c94510\c96078\c97647;\cssrgb\c4706\c29020\c43137;\cssrgb\c94118\c97647\c100000;}
-\deftab720
-\pard\pardeftab720\partightenfactor0
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedCalc Pro — Медицинские калькуляторы, 203н и КР</title>
+<style>
+:root{--bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--muted:#64748b;--bd:#e2e8f0;--pri:#0284c7;--pri-s:#e0f2fe;--teal:#0d9488;--ok:#16a34a;--ok-s:#dcfce7;--warn:#d97706;--warn-s:#fef3c7;--err:#dc2626;--err-s:#fee2e2}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--bd)}
+.wrap{max-width:1180px;margin:0 auto;padding:12px 16px}
+.head-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
+.logo-badge{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--pri),var(--teal));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+.search{flex:1 1 240px;max-width:440px;padding:8px 14px;border:1px solid #cbd5e1;border-radius:99px;font-size:13px;background:var(--bg)}
+.search:focus{outline:none;border-color:var(--pri);background:#fff}
+.disc{background:var(--warn-s);border:1px solid #fde68a;color:#78350f;padding:10px 14px;border-radius:12px;font-size:12.5px;margin-bottom:14px}
+.cats{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.cat-btn{padding:7px 14px;border-radius:99px;border:1px solid var(--bd);background:#fff;color:#475569;font-size:12.5px;font-weight:700;cursor:pointer}
+.cat-btn.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.nav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:18px}
+.nav-item{text-align:left;background:#fff;border:1px solid var(--bd);border-radius:13px;padding:11px 13px;cursor:pointer;transition:.15s}
+.nav-item:hover{border-color:var(--pri)}
+.nav-item.on{border-color:var(--pri);background:#f0f9ff;box-shadow:0 0 0 2px rgba(2,132,199,.15)}
+.nav-t{font-weight:800;font-size:13.5px;margin-top:4px}
+.nav-d{font-size:11.5px;color:var(--muted)}
+.pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700}
+.p-sky{background:var(--pri-s);color:#0369a1}.p-ok{background:var(--ok-s);color:#15803d}.p-warn{background:var(--warn-s);color:#b45309}.p-err{background:var(--err-s);color:#b91c1c}.p-gray{background:#f1f5f9;color:#475569}
+.panel{display:none}.panel.on{display:block}
+.grid2{display:grid;grid-template-columns:5fr 7fr;gap:16px;align-items:start}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+h2{margin:0 0 4px;font-size:17px}
+.sub{margin:0 0 14px;font-size:12px;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:11px}
+@media(max-width:540px){.row2,.row3{grid-template-columns:1fr}}
+.fld{margin-bottom:11px}
+label{display:block;font-size:11.5px;font-weight:700;color:#475569;margin-bottom:4px}
+input,select{width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--pri);background:#fff}
+.tog{display:grid;gap:6px}.t2{grid-template-columns:1fr 1fr}.t3{grid-template-columns:1fr 1fr 1fr}
+.tbtn{padding:7px;border:1px solid var(--bd);border-radius:9px;background:#f1f5f9;font-size:12px;font-weight:700;color:#475569;cursor:pointer}
+.tbtn.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.mbox{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:11px}
+.m-sky{background:#f0f9ff;border-color:#bae6fd}.m-ok{background:#f0fdf4;border-color:#bbf7d0}.m-warn{background:#fffbeb;border-color:#fde68a}
+.mlbl{font-size:11px;font-weight:700;color:var(--muted)}
+.mval{font-size:18px;font-weight:800;margin:2px 0}
+.msub{font-size:11.5px;color:#475569}
+.alert{padding:10px 12px;border-radius:10px;font-size:12px;margin-bottom:11px}
+.a-info{background:#f0f9ff;border:1px solid #bae6fd;color:#0c4a6e}
+.a-warn{background:var(--warn-s);border:1px solid #fde68a;color:#78350f}
+.a-err{background:var(--err-s);border:1px solid #fecaca;color:#991b1b}
+.a-ok{background:var(--ok-s);border:1px solid #bbf7d0;color:#166534}
+.hide{display:none!important}
+.emr{background:var(--bg);border:1px dashed #cbd5e1;border-radius:12px;padding:10px;margin-top:12px}
+.emr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;font-size:11.5px;font-weight:700;color:#475569}
+.btn{padding:6px 12px;border:none;border-radius:8px;background:var(--pri);color:#fff;font-size:12px;font-weight:700;cursor:pointer}
+.btn:hover{background:#0369a1}
+textarea{width:100%;border:none;background:transparent;font-family:inherit;font-size:12px;color:var(--ink);resize:vertical}
+textarea:focus{outline:none}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:8px 9px;border-bottom:1px solid #f1f5f9;text-align:left}
+th{background:var(--bg);font-size:11.5px;color:#475569}
+.twrap{overflow-x:auto;border:1px solid var(--bd);border-radius:12px;margin-bottom:10px}
+.mgrp{display:inline-flex;border:1px solid #cbd5e1;border-radius:8px;overflow:hidden}
+.mbtn{padding:4px 8px;border:none;border-right:1px solid var(--bd);background:#fff;font-size:11.5px;font-weight:700;cursor:pointer}
+.mbtn:last-child{border-right:none}
+.mbtn.y{background:var(--ok);color:#fff}.mbtn.n{background:var(--err);color:#fff}.mbtn.na{background:#475569;color:#fff}
+.prog{height:9px;background:var(--bd);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.prog-in{height:100%;background:var(--ok);transition:.2s}
+.kr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:780px){.kr-grid{grid-template-columns:1fr}}
+.kr-item{background:var(--bg);border:1px solid var(--bd);border-radius:13px;padding:13px;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+.toast{position:fixed;right:16px;bottom:16px;background:var(--ink);color:#fff;padding:9px 14px;border-radius:10px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:50}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
 
-\f0\b\fs34 \cf2 \cb2 \expnd0\expndtw0\kerning0
-\outl0\strokewidth0 \strokec2 M+\cf3 \cb1 \strokec3 \
-\pard\pardeftab720\partightenfactor0
-\cf3 \cb2 \strokec3 MedCalc Pro
-\f1\fs23 \cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb2 \strokec4 \uc0\u1055 \u1077 \u1076 \u1080 \u1072 \u1090 \u1088 \u1080 \u1103  \'95 \u1058 \u1077 \u1088 \u1072 \u1087 \u1080 \u1103  \'95 \u1055 \u1088 \u1080 \u1082 \u1072 \u1079  203\u1085  \'95 \u1050 \u1056  \u1052 \u1047  \u1056 \u1060 \cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
+<header>
+  <div class="wrap head-row">
+    <div class="logo">
+      <div class="logo-badge">M+</div>
+      <div>MedCalc Pro <span style="font-size:11.5px;font-weight:600;color:var(--muted);display:block">Педиатрия • Терапия • Приказ 203н • КР МЗ РФ</span></div>
+    </div>
+    <input id="qSearch" class="search" type="text" placeholder="Поиск по разделам, диагнозам, МКБ-10..." oninput="renderNav()">
+  </div>
+</header>
 
-\f2\b0\fs26 \cf3 \cb5 \strokec3 \
-\pard\pardeftab720\partightenfactor0
+<main class="wrap">
+  <div class="disc"><strong>Справочный инструмент. Не заменяет клиническое мышление врача.</strong> Алгоритмы основаны на стандартах ВОЗ, инструкциях ГРЛС, Приказе МЗ РФ № 203н и КР СПР/МЗ РФ.</div>
 
-\f3\b\fs42 \cf6 \cb7 \strokec6 \uc0\u1057 \u1087 \u1088 \u1072 \u1074 \u1086 \u1095 \u1085 \u1099 \u1081  \u1080 \u1085 \u1089 \u1090 \u1088 \u1091 \u1084 \u1077 \u1085 \u1090 . \u1053 \u1077  \u1079 \u1072 \u1084 \u1077 \u1085 \u1103 \u1077 \u1090  \u1082 \u1083 \u1080 \u1085 \u1080 \u1095 \u1077 \u1089 \u1082 \u1086 \u1077  \u1084 \u1099 \u1096 \u1083 \u1077 \u1085 \u1080 \u1077  \u1074 \u1088 \u1072 \u1095 \u1072 .
-\f2\b0 \cf6 \cb7 \strokec6  \uc0\u1040 \u1083 \u1075 \u1086 \u1088 \u1080 \u1090 \u1084 \u1099  \u1086 \u1089 \u1085 \u1086 \u1074 \u1072 \u1085 \u1099  \u1085 \u1072  \u1089 \u1090 \u1072 \u1085 \u1076 \u1072 \u1088 \u1090 \u1072 \u1093  \u1042 \u1054 \u1047 , \u1080 \u1085 \u1089 \u1090 \u1088 \u1091 \u1082 \u1094 \u1080 \u1103 \u1093  \u1043 \u1056 \u1051 \u1057 , \u1055 \u1088 \u1080 \u1082 \u1072 \u1079 \u1077  \u1052 \u1047  \u1056 \u1060  \u8470  203\u1085  \u1080  \u1050 \u1056  \u1057 \u1055 \u1056 /\u1052 \u1047  \u1056 \u1060 .\
-\pard\pardeftab720\qc\partightenfactor0
+  <div class="cats">
+    <button class="cat-btn on" onclick="setCat('all',this)">Все (9)</button>
+    <button class="cat-btn" onclick="setCat('ped',this)">Педиатрия</button>
+    <button class="cat-btn" onclick="setCat('ther',this)">Терапия</button>
+    <button class="cat-btn" onclick="setCat('203n',this)">Приказ 203н</button>
+    <button class="cat-btn" onclick="setCat('kr',this)">Клин. рекомендации</button>
+  </div>
 
-\f3\b\fs25 \cf2 \cb8 \strokec2 \uc0\u1042 \u1089 \u1077  (9)\
-\pard\pardeftab720\qc\partightenfactor0
-\cf9 \cb2 \strokec9 \uc0\u1055 \u1077 \u1076 \u1080 \u1072 \u1090 \u1088 \u1080 \u1103 \
-\uc0\u1058 \u1077 \u1088 \u1072 \u1087 \u1080 \u1103 \
-\uc0\u1055 \u1088 \u1080 \u1082 \u1072 \u1079  203\u1085 \
-\uc0\u1050 \u1083 \u1080 \u1085 . \u1088 \u1077 \u1082 \u1086 \u1084 \u1077 \u1085 \u1076 \u1072 \u1094 \u1080 \u1080 \
-\pard\pardeftab720\sa80\partightenfactor0
+  <div id="navGrid" class="nav-grid"></div>
 
-\fs46 \cf3 \cb2 \strokec3 1. \uc0\u1060 \u1080 \u1079 \u1080 \u1095 \u1077 \u1089 \u1082 \u1086 \u1077  \u1088 \u1072 \u1079 \u1074 \u1080 \u1090 \u1080 \u1077  (\u1042 \u1054 \u1047  0\'9619 \u1083 \u1077 \u1090 )\cf3 \cb1 \strokec3 \
-\pard\pardeftab720\sa280\partightenfactor0
+  <!-- 1. WHO GROWTH -->
+  <section id="sec-growth" class="panel on">
+    <div class="grid2">
+      <div class="card">
+        <h2>1. Физическое развитие (ВОЗ 0–19 лет)</h2>
+        <p class="sub">ИМТ и Z-score (SD) с поправкой SD23 (0–228 месяцев).</p>
+        <div class="fld">
+          <label>Пол ребёнка</label>
+          <div class="tog t2" id="gSex">
+            <button class="tbtn on" data-v="m" onclick="tog('gSex','m',calcGrowth)">Мальчик</button>
+            <button class="tbtn" data-v="f" onclick="tog('gSex','f',calcGrowth)">Девочка</button>
+          </div>
+        </div>
+        <div class="row3">
+          <div><label>Лет</label><input id="gY" type="number" min="0" max="19" value="1" oninput="syncG('ym')"></div>
+          <div><label>Месяцев</label><input id="gM" type="number" min="0" max="11" value="0" oninput="syncG('ym')"></div>
+          <div><label>Всего мес (0–228)</label><input id="gTot" type="number" min="0" max="228" value="12" oninput="syncG('tot')"></div>
+        </div>
+        <div class="row2">
+          <div><label>Рост / длина (см)</label><input id="gH" type="number" min="40" max="210" step="0.1" value="76" oninput="calcGrowth()"></div>
+          <div><label>Масса тела (кг)</label><input id="gW" type="number" min="1.5" max="150" step="0.1" value="9.8" oninput="calcGrowth()"></div>
+        </div>
+        <div class="alert a-info" style="margin:0"><strong>ИМТ:</strong> <span id="gBmi">16.97 кг/м²</span></div>
+      </div>
+      <div class="card">
+        <h2>Оценка коридоров ВОЗ</h2>
+        <p class="sub">Зелёный: -2..+1 SD (норма), жёлтый: +1..+2 SD, красный: &lt;-2 SD или &gt;+2 SD.</p>
+        <div id="gOut" class="row2"></div>
+        <div class="emr">
+          <div class="emr-top"><span>Заключение для ЭМК</span><button class="btn" onclick="copyEl('gEmr')">Скопировать в ЭМК</button></div>
+          <textarea id="gEmr" rows="3" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
 
-\f2\b0\fs38 \cf4 \cb2 \strokec4 \uc0\u1048 \u1052 \u1058  \u1080  Z-score (SD) \u1089  \u1087 \u1086 \u1087 \u1088 \u1072 \u1074 \u1082 \u1086 \u1081  SD23 (0\'96228 \u1084 \u1077 \u1089 \u1103 \u1094 \u1077 \u1074 ).\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
+  <!-- 2. FORMULA -->
+  <section id="sec-formula" class="panel">
+    <div class="grid2">
+      <div class="card">
+        <h2>2. Расчёт детской смеси (0–12 мес)</h2>
+        <p class="sub">Формула 10 дней (Финкельштейна — Тура), объёмный (Гейбнера — Черни) и калорийный (Маслова).</p>
+        <div class="fld">
+          <label>Возрастной период</label>
+          <div class="tog t2" id="fMode">
+            <button class="tbtn" data-v="days" onclick="tog('fMode','days',calcFormula)">Первые 10 дней жизни</button>
+            <button class="tbtn on" data-v="months" onclick="tog('fMode','months',calcFormula)">От 1 до 12 месяцев</button>
+          </div>
+        </div>
+        <div class="row2">
+          <div><label id="fAgeLbl">Возраст (месяцы, 1–12)</label><input id="fAge" type="number" min="1" max="12" step="0.5" value="2" oninput="calcFormula()"></div>
+          <div><label>Текущая масса тела (кг)</label><input id="fW" type="number" min="1.5" max="15" step="0.05" value="4.8" oninput="calcFormula()"></div>
+        </div>
+        <div class="row3">
+          <div><label>Масса при рождении (г)</label><input id="fBirth" type="number" min="1000" max="5500" step="50" value="3350" oninput="calcFormula()"></div>
+          <div><label>Кормлений/сут (5–8)</label><select id="fFeeds" onchange="calcFormula()"><option>5</option><option>6</option><option selected>7</option><option>8</option></select></div>
+          <div><label>Ккал/100 мл</label><input id="fKcal" type="number" min="60" max="85" value="67" oninput="calcFormula()"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Сравнение 3 методов расчёта</h2>
+        <p class="sub">Разовый объём округлён до 5 мл; 1 мерная ложка = 30 мл воды.</p>
+        <div id="fOut" class="row3"></div>
+        <div class="emr">
+          <div class="emr-top"><span>Рекомендации по питанию для ЭМК</span><button class="btn" onclick="copyEl('fEmr')">Скопировать в ЭМК</button></div>
+          <textarea id="fEmr" rows="3" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
 
-\f3\b\fs23 \cf9 \cb2 \strokec9 \uc0\u1055 \u1086 \u1083  \u1088 \u1077 \u1073 \u1105 \u1085 \u1082 \u1072 \cf9 \cb1 \strokec9 \
-\pard\pardeftab720\qc\partightenfactor0
+  <!-- 3. ANTIPYRETICS -->
+  <section id="sec-anti" class="panel">
+    <div class="card">
+      <h2>3. Парацетамол и Ибупрофен по весу</h2>
+      <p class="sub">Одновременный расчёт разовых и максимальных суточных доз.</p>
+      <div class="row2">
+        <div><label>Масса тела ребёнка (кг)</label><input id="aW" type="number" min="2" max="90" step="0.1" value="13" oninput="calcAnti()"></div>
+        <div><label>Возраст (месяцев)</label><input id="aM" type="number" min="0" max="216" value="24" oninput="calcAnti()"></div>
+      </div>
+      <div id="aWarn" class="alert a-err hide"><strong>Внимание (возраст &lt; 3 мес):</strong> Ибупрофен противопоказан детям младше 3 месяцев и весом &lt; 6 кг! Назначение жаропонижающих до 3 мес требует осмотра врача.</div>
+      <div class="row2" id="aOut"></div>
+      <div class="emr">
+        <div class="emr-top"><span>Назначение антипиретиков для ЭМК</span><button class="btn" onclick="copyEl('aEmr')">Скопировать в ЭМК</button></div>
+        <textarea id="aEmr" rows="3" readonly></textarea>
+      </div>
+    </div>
+  </section>
 
-\fs24 \cf2 \cb8 \strokec2 \uc0\u1052 \u1072 \u1083 \u1100 \u1095 \u1080 \u1082 \
-\pard\pardeftab720\qc\partightenfactor0
-\cf9 \cb10 \strokec9 \uc0\u1044 \u1077 \u1074 \u1086 \u1095 \u1082 \u1072 \
-\pard\pardeftab720\partightenfactor0
+  <!-- 4. NEBULIZER -->
+  <section id="sec-neb" class="panel">
+    <div class="grid2">
+      <div class="card">
+        <h2>4. Небулайзерная терапия</h2>
+        <p class="sub">Беродуал, Будесонид (Пульмикорт) и Атровент с разведением 0.9% NaCl.</p>
+        <div class="row3">
+          <div><label>Возраст (лет)</label><input id="nY" type="number" min="0" max="90" step="0.5" value="3" oninput="calcNeb()"></div>
+          <div><label>Возраст (мес)</label><input id="nM" type="number" min="0" max="11" value="0" oninput="calcNeb()"></div>
+          <div><label>Масса тела (кг)</label><input id="nW" type="number" min="3" max="120" step="0.5" value="14" oninput="calcNeb()"></div>
+        </div>
+        <div class="fld">
+          <label>Целевой объём камеры небулайзера</label>
+          <div class="tog t3" id="nCh">
+            <button class="tbtn" data-v="2" onclick="tog('nCh','2',calcNeb)">2 мл</button>
+            <button class="tbtn on" data-v="3" onclick="tog('nCh','3',calcNeb)">3 мл</button>
+            <button class="tbtn" data-v="4" onclick="tog('nCh','4',calcNeb)">4 мл</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Расчёт на 1 ингаляцию + 0.9% NaCl</h2>
+        <p class="sub">1 мл Беродуала / Атровента = 20 капель.</p>
+        <div id="nOut" class="row3"></div>
+        <div class="emr">
+          <div class="emr-top"><span>Назначения для ЭМК</span><button class="btn" onclick="copyEl('nEmr')">Скопировать в ЭМК</button></div>
+          <textarea id="nEmr" rows="3" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
 
-\fs23 \cf9 \cb2 \strokec9 \uc0\u1051 \u1077 \u1090 \cf9 \cb1 \strokec9 \
-\cf9 \cb2 \strokec9 \uc0\u1052 \u1077 \u1089 \u1103 \u1094 \u1077 \u1074 \cf9 \cb1 \strokec9 \
-\cf9 \cb2 \strokec9 \uc0\u1042 \u1089 \u1077 \u1075 \u1086  \u1084 \u1077 \u1089  (0\'96228)\cf9 \cb1 \strokec9 \
-\cf9 \cb2 \strokec9 \uc0\u1056 \u1086 \u1089 \u1090  / \u1076 \u1083 \u1080 \u1085 \u1072  (\u1089 \u1084 )\cf9 \cb1 \strokec9 \
-\cf9 \cb2 \strokec9 \uc0\u1052 \u1072 \u1089 \u1089 \u1072  \u1090 \u1077 \u1083 \u1072  (\u1082 \u1075 )\cf9 \cb1 \strokec9 \
-\pard\pardeftab720\partightenfactor0
+  <!-- 5. MEDS BY WEIGHT -->
+  <section id="sec-meds" class="panel">
+    <div class="grid2">
+      <div class="card">
+        <h2>5. Дозы препаратов по весу</h2>
+        <p class="sub">Антибиотики, препараты железа и муколитики с расчётом флаконов на курс.</p>
+        <div class="fld">
+          <label>Препарат и режим</label>
+          <select id="mDrug" onchange="onMedChange()">
+            <option value="amox45">Амоксициллин — стандарт (45 мг/кг/сут в 2 приёма)</option>
+            <option value="amox90">Амоксициллин — высокие дозы (90 мг/кг/сут в 2 приёма)</option>
+            <option value="clav45" selected>Амоксиклав — стандарт (45 мг/кг/сут по амоксициллину)</option>
+            <option value="clav90">Амоксиклав — высокие дозы (90 мг/кг/сут по амоксициллину)</option>
+            <option value="azithro">Азитромицин (10 мг/кг 1 р/сут, курс 3 дня)</option>
+            <option value="clarithro">Кларитромицин (15 мг/кг/сут в 2 приёма)</option>
+            <option value="ferrum">Феррум Лек (4 мг/кг/сут Fe³⁺ в 2 приёма)</option>
+            <option value="ambroxol">Амброксол (1.5 мг/кг/сут в 2 приёма)</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div><label>Масса тела (кг)</label><input id="mW" type="number" min="2" max="110" step="0.5" value="16" oninput="calcMed()"></div>
+          <div><label>Длительность курса (дней)</label><input id="mDays" type="number" min="1" max="180" value="7" oninput="calcMed()"></div>
+        </div>
+        <div class="fld"><label>Форма выпуска (суспензия / сироп)</label><select id="mForm" onchange="calcMed()"></select></div>
+        <div id="mAlert" class="alert hide" style="margin:0"></div>
+      </div>
+      <div class="card">
+        <h2>Результат расчёта</h2>
+        <p class="sub">Разовая и суточная доза + потребность в упаковках.</p>
+        <div id="mOut" class="row3"></div>
+        <div class="emr">
+          <div class="emr-top"><span>Назначение для ЭМК</span><button class="btn" onclick="copyEl('mEmr')">Скопировать в ЭМК</button></div>
+          <textarea id="mEmr" rows="3" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
 
-\fs38 \cf11 \cb12 \strokec11 \uc0\u1048 \u1052 \u1058 :
-\f2\b0\fs24 \cf11 \cb12 \strokec11  
-\fs38 \cf11 \cb12 \strokec11 16.97 \uc0\u1082 \u1075 /\u1084 \'b2
-\fs24 \cf11 \cb12 \strokec11 \
-\pard\pardeftab720\sa80\partightenfactor0
+  <!-- 6. GANZONI -->
+  <section id="sec-ganzoni" class="panel">
+    <div class="grid2">
+      <div class="card">
+        <h2>6. Дефицит железа (формула Ганцони)</h2>
+        <p class="sub">Дефицит Fe = Масса × (Целевой Hb − Текущий Hb) × 0.24 + Депо.</p>
+        <div class="row2">
+          <div><label>Масса тела (кг)</label><input id="zW" type="number" min="4" max="160" step="0.5" value="55" oninput="syncGanAuto()"></div>
+          <div><label>Текущий Hb (г/л)</label><input id="zCurr" type="number" min="30" max="160" value="88" oninput="calcGan()"></div>
+        </div>
+        <div class="row2">
+          <div><label>Целевой Hb (г/л)</label><input id="zTarg" type="number" min="100" max="160" value="130" oninput="calcGan()"></div>
+          <div><label>Депо железа (мг)</label><input id="zDep" type="number" min="50" max="1000" step="10" value="500" oninput="calcGan()"></div>
+        </div>
+        <div class="alert a-info" style="margin:0">Автоподстановка: ≥35 кг → целевой Hb 130 г/л, депо 500 мг; &lt;35 кг → целевой Hb 120 г/л, депо 15 мг/кг.</div>
+      </div>
+      <div class="card">
+        <h2>Потребность в элементарном железе</h2>
+        <p class="sub">Расчёт в ампулах Феррум Лек 100 мг/2 мл и длительности перорального курса.</p>
+        <div id="zOut" class="row3"></div>
+        <div class="emr">
+          <div class="emr-top"><span>Расчёт для ЭМК</span><button class="btn" onclick="copyEl('zEmr')">Скопировать в ЭМК</button></div>
+          <textarea id="zEmr" rows="3" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
 
-\f3\b\fs46 \cf3 \cb2 \strokec3 \uc0\u1054 \u1094 \u1077 \u1085 \u1082 \u1072  \u1082 \u1086 \u1088 \u1080 \u1076 \u1086 \u1088 \u1086 \u1074  \u1042 \u1054 \u1047 \cf3 \cb1 \strokec3 \
-\pard\pardeftab720\sa280\partightenfactor0
+  <!-- 7. CEFTRIAXONE -->
+  <section id="sec-cef" class="panel">
+    <div class="grid2">
+      <div class="card">
+        <h2>7. Цефтриаксон по весу</h2>
+        <p class="sub">Режимы дозирования и точный объём набора из флакона.</p>
+        <div class="row2">
+          <div><label>Масса тела (кг)</label><input id="cW" type="number" min="1.5" max="150" step="0.1" value="16" oninput="calcCef()"></div>
+          <div>
+            <label>Клинический режим</label>
+            <select id="cReg" onchange="calcCef()">
+              <option value="50" selected>Стандартный (50 мг/кг/сут, 1 р/сут)</option>
+              <option value="80">Тяжёлые инфекции (80 мг/кг/сут, 1–2 р/сут)</option>
+              <option value="100">Менингит (100 мг/кг/сут в 2 введения)</option>
+              <option value="adult1">Взрослый стандарт (1000 мг 1 р/сут)</option>
+              <option value="adult2">Взрослый тяжёлый (2000 мг/сут)</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div><label>Флакон</label><select id="cVial" onchange="calcCef()"><option value="500">500 мг</option><option value="1000" selected>1000 мг (1 г)</option></select></div>
+          <div><label>Объём растворителя</label><select id="cSolv" onchange="calcCef()"><option value="2">2.0 мл</option><option value="3.5" selected>3.5 мл</option></select></div>
+        </div>
+        <div class="alert a-warn" style="margin:0"><strong>Важно:</strong> раствор лидокаина противопоказан для в/в введения и у детей до 12 лет (разводить водой для инъекций или 0.9% NaCl). Не смешивать с Ca²⁺.</div>
+      </div>
+      <div class="card">
+        <h2>Схема введения и разведения</h2>
+        <p class="sub">Концентрация после разведения и объём в шприц.</p>
+        <div id="cOut" class="row3"></div>
+        <div class="emr">
+          <div class="emr-top"><span>Назначение для ЭМК</span><button class="btn" onclick="copyEl('cEmr')">Скопировать в ЭМК</button></div>
+          <textarea id="cEmr" rows="3" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
 
-\f2\b0\fs38 \cf4 \cb2 \strokec4 \uc0\u1047 \u1077 \u1083 \u1105 \u1085 \u1099 \u1081 : -2..+1 SD (\u1085 \u1086 \u1088 \u1084 \u1072 ), \u1078 \u1105 \u1083 \u1090 \u1099 \u1081 : +1..+2 SD, \u1082 \u1088 \u1072 \u1089 \u1085 \u1099 \u1081 : <-2 SD \u1080 \u1083 \u1080  >+2 SD.\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
+  <!-- 8. ORDER 203N -->
+  <section id="sec-203n" class="panel">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:4px">
+        <h2>8. Чек-лист врача (Приказ МЗ РФ № 203н)</h2>
+        <span id="p203Badge" class="pill p-gray">Не оценено</span>
+      </div>
+      <p class="sub">Самоконтроль критериев качества медицинской помощи с выявлением риска дефектов ЭКМП.</p>
+      <div class="row2">
+        <div><label>Нозология по Приказу № 203н</label><select id="p203Sel" onchange="render203()"></select></div>
+        <div style="display:flex;align-items:flex-end;gap:8px">
+          <button class="btn" style="background:var(--ok)" onclick="markAll203('y')">Отметить все «Да»</button>
+          <button class="btn" style="background:#64748b" onclick="markAll203('')">Сбросить</button>
+        </div>
+      </div>
+      <div class="prog"><div id="p203Bar" class="prog-in" style="width:0%"></div></div>
+      <div id="p203Warn" class="alert a-err hide"></div>
+      <div class="twrap">
+        <table>
+          <thead><tr><th style="width:36px">№</th><th>Критерий качества</th><th style="width:155px;text-align:center">Оценка</th></tr></thead>
+          <tbody id="p203Body"></tbody>
+        </table>
+      </div>
+      <div class="emr">
+        <div class="emr-top"><span>Протокол самоконтроля КМП для ЭМК</span><button class="btn" onclick="copyEl('p203Emr')">Скопировать в ЭМК</button></div>
+        <textarea id="p203Emr" rows="3" readonly></textarea>
+      </div>
+    </div>
+  </section>
 
-\f3\b\fs23 \cf9 \cb5 \strokec9 \uc0\u1047 \u1072 \u1082 \u1083 \u1102 \u1095 \u1077 \u1085 \u1080 \u1077  \u1076 \u1083 \u1103  \u1069 \u1052 \u1050 \cf9 \cb1 \strokec9 \
-\pard\pardeftab720\qc\partightenfactor0
+  <!-- 9. GUIDELINES -->
+  <section id="sec-kr" class="panel">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:4px">
+        <h2>9. Клинические рекомендации (СПР / МЗ РФ)</h2>
+        <a href="https://cr.minzdrav.gov.ru/" target="_blank" rel="noopener" class="pill p-sky">Рубрикатор КР МЗ РФ &#8599;</a>
+      </div>
+      <p class="sub">10 актуальных детских клинических рекомендаций с МКБ-10, тактикой терапии и красными флагами.</p>
+      <div class="fld"><input id="krFilter" type="text" placeholder="Фильтр по диагнозу, МКБ-10 или препарату..." oninput="renderKR()"></div>
+      <div id="krGrid" class="kr-grid"></div>
+    </div>
+  </section>
+</main>
 
-\fs24 \cf2 \cb8 \strokec2 \uc0\u1057 \u1082 \u1086 \u1087 \u1080 \u1088 \u1086 \u1074 \u1072 \u1090 \u1100  \u1074  \u1069 \u1052 \u1050 \
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 \strokec2 \uc0\u1057 \u1082 \u1086 \u1087 \u1080 \u1088 \u1086 \u1074 \u1072 \u1085 \u1086  \u1074  \u1069 \u1052 \u1050 \
+<div id="toast" class="toast">Скопировано в ЭМК</div>
+
+<script>
+var NAV = [
+  {id:'growth',cat:'ped',tag:'Педиатрия',t:'1. Физическое развитие (ВОЗ)',d:'ИМТ, Z-score (SD) 0–19 лет с поправкой SD23'},
+  {id:'formula',cat:'ped',tag:'Педиатрия',t:'2. Расчёт детской смеси',d:'Тура, Гейбнера — Черни, Маслова (0–12 мес)'},
+  {id:'anti',cat:'ped',tag:'Педиатрия',t:'3. Парацетамол и Ибупрофен',d:'Разовые и суточные дозы, суспензии, табл., свечи'},
+  {id:'neb',cat:'ped ther',tag:'Педиатрия / Терапия',t:'4. Небулайзерная терапия',d:'Беродуал, Будесонид, Атровент + 0.9% NaCl'},
+  {id:'meds',cat:'ped ther',tag:'Педиатрия / Терапия',t:'5. Дозы препаратов по весу',d:'Антибиотики, Феррум Лек, Амброксол на курс'},
+  {id:'ganzoni',cat:'ped ther',tag:'Терапия / Педиатрия',t:'6. Дефицит железа (Ганцони)',d:'Кумулятивный дефицит Fe, ампулы и курс'},
+  {id:'cef',cat:'ped ther',tag:'Терапия / Педиатрия',t:'7. Цефтриаксон по весу',d:'Режимы 50–100 мг/кг и разведение флакона'},
+  {id:'203n',cat:'203n',tag:'Приказ 203н',t:'8. Чек-лист врача (№ 203н)',d:'10 нозологий, оценка Да/Нет/НП, протокол ЭМК'},
+  {id:'kr',cat:'kr',tag:'КР МЗ РФ',t:'9. Клинические рекомендации',d:'10 детских КР СПР/МЗ РФ с планом ведения'}
+];
+var curCat = 'all', curSec = 'growth';
+
+function renderNav(){
+  var q = (document.getElementById('qSearch').value || '').trim().toLowerCase();
+  var g = document.getElementById('navGrid');
+  var h = '';
+  for(var i=0;i<NAV.length;i++){
+    var x = NAV[i];
+    if(curCat!=='all' && x.cat.indexOf(curCat)===-1) continue;
+    if(q && (x.t+' '+x.d+' '+x.tag).toLowerCase().indexOf(q)===-1) continue;
+    var on = x.id===curSec;
+    h += '<button class="nav-item'+(on?' on':'')+'" onclick="openSec(\''+x.id+'\')">' +
+         '<span class="pill '+(on?'p-sky':'p-gray')+'">'+x.tag+'</span>' +
+         '<div class="nav-t">'+x.t+'</div><div class="nav-d">'+x.d+'</div></button>';
+  }
+  g.innerHTML = h || '<div class="alert a-info" style="grid-column:1/-1;margin:0">Разделы не найдены.</div>';
 }
+
+function setCat(c, btn){
+  curCat = c;
+  var bs = document.querySelectorAll('.cat-btn');
+  for(var i=0;i<bs.length;i++) bs[i].classList.remove('on');
+  if(btn) btn.classList.add('on');
+  for(var j=0;j<NAV.length;j++){
+    if(c==='all' || NAV[j].cat.indexOf(c)!==-1){ openSec(NAV[j].id); return; }
+  }
+  renderNav();
+}
+
+function openSec(id){
+  curSec = id;
+  var ps = document.querySelectorAll('.panel');
+  for(var i=0;i<ps.length;i++) ps[i].classList.remove('on');
+  var el = document.getElementById('sec-'+id);
+  if(el) el.classList.add('on');
+  renderNav();
+}
+
+function tog(gid, val, cb){
+  var bs = document.querySelectorAll('#'+gid+' .tbtn');
+  for(var i=0;i<bs.length;i++) bs[i].classList.toggle('on', bs[i].getAttribute('data-v')===val);
+  if(cb) cb();
+}
+function getTog(gid){
+  var a = document.querySelector('#'+gid+' .tbtn.on');
+  return a ? a.getAttribute('data-v') : '';
+}
+function copyEl(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.select();
+  el.setSelectionRange(0,99999);
+  try{ document.execCommand('copy'); }catch(e){}
+  var t = document.getElementById('toast');
+  t.classList.add('on');
+  setTimeout(function(){ t.classList.remove('on'); }, 1800);
+}
+
+/* 1. WHO GROWTH */
+var AGES = [0,3,6,9,12,18,24,36,48,60,84,108,120,144,168,192,216,228];
+var LMS = {
+  m:{hM:[49.9,61.4,67.6,72,75.7,82.3,87.1,96.1,103.3,110,121.7,132.6,137.8,149.1,163.2,172.9,176.1,176.5],hS:[.038,.034,.033,.033,.033,.034,.035,.038,.040,.042,.044,.046,.047,.050,.049,.044,.042,.042],
+     wM:[3.3,6.4,7.9,8.9,9.6,10.9,12.2,14.3,16.3,18.3,22.9,28.1,31.2,39.2,50.8,60.8,66.7,68.5],wL:[.35,.17,.14,.12,.10,.06,.02,-.04,-.09,-.14,-.22,-.28,-.30,-.30,-.30,-.30,-.30,-.30],wS:[.146,.122,.116,.114,.113,.113,.115,.121,.127,.134,.151,.171,.182,.197,.194,.182,.174,.172],
+     bM:[13.4,16.9,17.3,17.2,16.8,16.2,15.7,15.6,15.3,15.2,15.5,16.0,16.4,17.5,19.0,20.5,21.6,22.0],bL:[.30,.02,-.05,-.08,-.10,-.12,-.15,-.22,-.30,-.38,-.54,-.65,-.68,-.70,-.65,-.60,-.56,-.55],bS:[.096,.086,.084,.083,.083,.083,.084,.086,.089,.092,.102,.116,.123,.134,.136,.134,.132,.131]},
+  f:{hM:[49.1,59.8,65.7,70.1,74,80.7,86.4,95.1,102.7,109.4,120.8,132.5,138.6,151.2,159.8,162.5,163.1,163.2],hS:[.038,.035,.034,.034,.034,.035,.037,.039,.041,.043,.045,.047,.047,.045,.042,.040,.040,.040],
+     wM:[3.2,5.8,7.3,8.2,8.9,10.2,11.5,13.9,16.1,18.2,22.4,28.2,31.9,41.0,49.8,54.6,56.5,56.9],wL:[.38,.12,.06,.02,-.02,-.07,-.11,-.16,-.20,-.23,-.28,-.30,-.30,-.30,-.30,-.30,-.30,-.30],wS:[.145,.126,.121,.119,.118,.119,.122,.128,.135,.143,.160,.179,.187,.193,.185,.176,.171,.170],
+     bM:[13.3,16.4,16.9,16.7,16.4,15.9,15.5,15.4,15.3,15.2,15.4,16.1,16.6,18.0,19.6,20.7,21.2,21.4],bL:[.32,0,-.08,-.12,-.15,-.18,-.22,-.28,-.35,-.42,-.54,-.62,-.64,-.64,-.60,-.56,-.54,-.53],bS:[.097,.089,.087,.086,.086,.086,.087,.090,.094,.099,.110,.124,.130,.138,.138,.136,.134,.133]}
+};
+var WFL_H = [45,55,65,75,85,95,105,115,120];
+var WFL_M = {m:[2.4,4.5,7.1,9.5,11.7,14.1,16.8,20.0,22.0], f:[2.5,4.5,7.0,9.1,11.4,13.9,16.7,20.2,22.4]};
+
+function lerp(xs,ys,x){
+  if(x<=xs[0]) return ys[0];
+  if(x>=xs[xs.length-1]) return ys[ys.length-1];
+  for(var i=0;i<xs.length-1;i++){
+    if(x>=xs[i] && x<=xs[i+1]) return ys[i]+(x-xs[i])/(xs[i+1]-xs[i])*(ys[i+1]-ys[i]);
+  }
+  return ys[0];
+}
+function zLms(y,L,M,S){
+  var z = Math.abs(L)<1e-6 ? Math.log(y/M)/S : (Math.pow(y/M,L)-1)/(L*S);
+  if(z>3){ var s3=M*Math.pow(1+L*S*3,1/L), s2=M*Math.pow(1+L*S*2,1/L); z=3+(y-s3)/(s3-s2); }
+  else if(z<-3){ var n3=M*Math.pow(1-L*S*3,1/L), n2=M*Math.pow(1-L*S*2,1/L); z=-3+(y-n3)/(n2-n3); }
+  return z;
+}
+function syncG(src){
+  if(src==='ym'){
+    var y = Math.max(0,Math.min(19,parseInt(document.getElementById('gY').value,10)||0));
+    var m = Math.max(0,Math.min(11,parseInt(document.getElementById('gM').value,10)||0));
+    document.getElementById('gTot').value = Math.min(228,y*12+m);
+  } else {
+    var t = Math.max(0,Math.min(228,parseInt(document.getElementById('gTot').value,10)||0));
+    document.getElementById('gY').value = Math.floor(t/12);
+    document.getElementById('gM').value = t%12;
+  }
+  calcGrowth();
+}
+function zBox(title, z, noteOk, noteLow, noteHigh){
+  var cls = z<-2 || z>2 ? 'p-err' : (z>1 ? 'p-warn' : 'p-ok');
+  var txt = z<-2 ? noteLow : (z>2 ? noteHigh : (z>1 ? 'Выше среднего (+1..+2 SD)' : noteOk));
+  return '<div class="mbox"><div class="mlbl">'+title+'</div>' +
+         '<div class="mval">'+(z>=0?'+':'')+z.toFixed(2)+' SD</div>' +
+         '<span class="pill '+cls+'">'+txt+'</span></div>';
+}
+function calcGrowth(){
+  var sex = getTog('gSex')||'m';
+  var m = Math.max(0,Math.min(228,parseFloat(document.getElementById('gTot').value)||0));
+  var h = Math.max(40,parseFloat(document.getElementById('gH').value)||76);
+  var w = Math.max(1.5,parseFloat(document.getElementById('gW').value)||9.8);
+  var bmi = w/Math.pow(h/100,2);
+  document.getElementById('gBmi').textContent = bmi.toFixed(2)+' кг/м²';
+
+  var d = LMS[sex];
+  var haz = zLms(h, 1, lerp(AGES,d.hM,m), lerp(AGES,d.hS,m));
+  var baz = zLms(bmi, lerp(AGES,d.bL,m), lerp(AGES,d.bM,m), lerp(AGES,d.bS,m));
+
+  var html = zBox('Рост / возраст (HAZ)', haz, 'Нормальный рост (-2..+1 SD)', 'Низкорослость (<-2 SD)', 'Высокорослость (>+2 SD)');
+  var extraEmr = '';
+  if(m<=120){
+    var waz = zLms(w, lerp(AGES,d.wL,m), lerp(AGES,d.wM,m), lerp(AGES,d.wS,m));
+    html += zBox('Масса / возраст (WAZ)', waz, 'Норма (-2..+1 SD)', 'Дефицит массы (<-2 SD)', 'Избыток массы (>+2 SD)');
+    extraEmr += 'WAZ '+(waz>=0?'+':'')+waz.toFixed(2)+' SD; ';
+  } else {
+    html += '<div class="mbox"><div class="mlbl">Масса / возраст (WAZ)</div><div class="mval" style="font-size:14px;color:var(--muted)">Не оценивается &gt;10 лет</div><div class="msub">Ориентир — BAZ</div></div>';
+  }
+  html += zBox('ИМТ / возраст (BAZ)', baz, 'Норма (-2..+1 SD)', 'Истощение / дефицит (<-2 SD)', 'Ожирение (>+2 SD)');
+  if(h>=45 && h<=120){
+    var whz = zLms(w, -0.35, lerp(WFL_H,WFL_M[sex],h), 0.085);
+    html += zBox('Вес / рост (WHZ)', whz, 'Гармонично (-2..+1 SD)', 'Дефицит веса (<-2 SD)', 'Избыток веса (>+2 SD)');
+    extraEmr += 'WHZ '+(whz>=0?'+':'')+whz.toFixed(2)+' SD; ';
+  } else {
+    html += '<div class="mbox"><div class="mlbl">Вес / рост (WHZ)</div><div class="mval" style="font-size:14px;color:var(--muted)">Только для 45–120 см</div><div class="msub">Ориентир — BAZ</div></div>';
+  }
+  document.getElementById('gOut').innerHTML = html;
+  document.getElementById('gEmr').value =
+    'Физическое развитие по ВОЗ ('+(sex==='m'?'М':'Ж')+', '+Math.floor(m/12)+' г '+Math.round(m%12)+' мес): рост '+h+' см, вес '+w+' кг, ИМТ '+bmi.toFixed(2)+' кг/м². ' +
+    'HAZ '+(haz>=0?'+':'')+haz.toFixed(2)+' SD, '+extraEmr+'BAZ '+(baz>=0?'+':'')+baz.toFixed(2)+' SD.';
+}
+
+/* 2. FORMULA */
+function calcFormula(){
+  var mode = getTog('fMode')||'months';
+  var ageInp = document.getElementById('fAge');
+  var lbl = document.getElementById('fAgeLbl');
+  if(mode==='days'){
+    lbl.textContent = 'День жизни (1–10 дн)';
+    if(parseFloat(ageInp.value)>10) ageInp.value = 5;
+  } else {
+    lbl.textContent = 'Возраст (месяцы, 1–12)';
+  }
+  var age = Math.max(1,parseFloat(ageInp.value)||2);
+  var w = Math.max(1.5,parseFloat(document.getElementById('fW').value)||4.8);
+  var birth = Math.max(1000,parseFloat(document.getElementById('fBirth').value)||3350);
+  var feeds = parseInt(document.getElementById('fFeeds').value,10)||7;
+  var kcal = parseFloat(document.getElementById('fKcal').value)||67;
+
+  var d = Math.min(10,Math.max(1,Math.round(age)));
+  var turDay = Math.min(1000, d * (birth<3200 ? 70 : 80));
+
+  var frac = age<=2 ? 5 : (age<=4 ? 6 : (age<=6 ? 7 : 8));
+  var geibDay = Math.min(1000, Math.round((w*1000)/frac));
+
+  var kk = age<=3 ? 120 : (age<=6 ? 115 : (age<=9 ? 110 : 100));
+  var masDay = Math.min(1000, Math.round(((w*kk)/kcal)*100));
+
+  function cardHtml(name, dayV, sub){
+    var once = Math.round((dayV/feeds)/5)*5;
+    var spoons = +(once/30).toFixed(1);
+    return '<div class="mbox '+(name.indexOf('Маслова')!==-1?'m-sky':'')+'"><div class="mlbl">'+name+'</div>' +
+           '<div class="mval">'+dayV+' мл/сут</div>' +
+           '<div class="msub">По <strong>'+once+' мл</strong> × '+feeds+' раз ('+spoons+' мерн. л.)<br>'+sub+'</div></div>';
+  }
+  document.getElementById('fOut').innerHTML =
+    cardHtml('Финкельштейна — Тура (1–10 дн)', turDay, 'Коэф. '+(birth<3200?70:80)+' × '+d+'-й день') +
+    cardHtml('Объёмный (Гейбнера — Черни)', geibDay, '1/'+frac+' массы тела (макс. 1000 мл)') +
+    cardHtml('Калорийный (Маслова)', masDay, kk+' ккал/кг/сут при '+kcal+' ккал/100 мл');
+
+  var recDay = mode==='days' ? turDay : masDay;
+  var recOnce = Math.round((recDay/feeds)/5)*5;
+  var recSpoons = +(recOnce/30).toFixed(1);
+  document.getElementById('fEmr').value =
+    'Расчёт искусственного вскармливания (масса '+w+' кг): суточный объём смеси — '+recDay+' мл/сут. ' +
+    'Режим кормления: по '+recOnce+' мл ('+recSpoons+' мерн. л. смеси на '+recOnce+' мл воды) '+feeds+' раз(а) в сутки.';
+}
+
+/* 3. ANTIPYRETICS */
+function calcAnti(){
+  var w = Math.max(2,parseFloat(document.getElementById('aW').value)||13);
+  var m = Math.max(0,parseFloat(document.getElementById('aM').value)||24);
+  document.getElementById('aWarn').classList.toggle('hide', m>=3 && w>=6);
+
+  var p1 = Math.min(1000,Math.round(w*15)), pMax = Math.min(4000,Math.round(w*60));
+  var p120 = (p1/24).toFixed(1), p250 = (p1/50).toFixed(1);
+  var pSupp = p1<=75 ? '50 мг' : (p1<=175 ? '100 мг' : '250 мг');
+
+  var i1 = Math.min(400,Math.round(w*10)), iMax = Math.min(1200,Math.round(w*30));
+  var i100 = (i1/20).toFixed(1), i200 = (i1/40).toFixed(1);
+
+  document.getElementById('aOut').innerHTML =
+    '<div class="mbox m-sky"><div class="mlbl">Парацетамол (15 мг/кг, интервал ≥ 4–6 ч)</div>' +
+    '<div class="mval">'+p1+' мг <span style="font-size:12px;font-weight:600">(макс. '+pMax+' мг/сут)</span></div>' +
+    '<div class="msub">Сусп. 120 мг/5 мл: <strong>'+p120+' мл</strong> | 250 мг/5 мл: <strong>'+p250+' мл</strong><br>' +
+    'Табл. 200/500 мг: '+(p1/200).toFixed(2)+' / '+(p1/500).toFixed(2)+' шт. | Свечи: <strong>'+pSupp+'</strong></div></div>' +
+    '<div class="mbox m-ok"><div class="mlbl">Ибупрофен (10 мг/кг, интервал ≥ 6–8 ч)</div>' +
+    '<div class="mval">'+i1+' мг <span style="font-size:12px;font-weight:600">(макс. '+iMax+' мг/сут)</span></div>' +
+    '<div class="msub">Сусп. 100 мг/5 мл: <strong>'+i100+' мл</strong> | 200 мг/5 мл: <strong>'+i200+' мл</strong><br>' +
+    'Табл. 200/400 мг: '+(i1/200).toFixed(2)+' / '+(i1/400).toFixed(2)+' шт.</div></div>';
+
+  document.getElementById('aEmr').value =
+    'Жаропонижающие (масса '+w+' кг, возраст '+m+' мес): Парацетамол '+p1+' мг (сусп. 120/5 — '+p120+' мл или 250/5 — '+p250+' мл, свечи '+pSupp+', макс. '+pMax+' мг/сут); ' +
+    'Ибупрофен '+i1+' мг (сусп. 100/5 — '+i100+' мл или 200/5 — '+i200+' мл, макс. '+iMax+' мг/сут).';
+}
+
+/* 4. NEBULIZER */
+function calcNeb(){
+  var age = (parseFloat(document.getElementById('nY').value)||0) + (parseFloat(document.getElementById('nM').value)||0)/12;
+  var w = Math.max(3,parseFloat(document.getElementById('nW').value)||14);
+  var ch = parseFloat(getTog('nCh'))||3;
+
+  var berDrops = age<6 ? Math.min(10,Math.max(4,Math.round(w))) : (age<=12 ? 15 : 20);
+  var berMl = +(berDrops/20).toFixed(2);
+  var berSal = Math.max(0,+(ch-berMl).toFixed(2));
+
+  var budMg = age<12 ? 0.25 : 0.5;
+  var budMl025 = +(budMg/0.25).toFixed(1);
+  var budMl05 = +(budMg/0.5).toFixed(1);
+  var budSal = Math.max(0,+(ch-budMl05).toFixed(1));
+
+  var atrDrops = age<6 ? 10 : (age<=12 ? 20 : 40);
+  var atrMl = +(atrDrops/20).toFixed(2);
+  var atrSal = Math.max(0,+(ch-atrMl).toFixed(2));
+
+  document.getElementById('nOut').innerHTML =
+    '<div class="mbox m-sky"><div class="mlbl">Беродуал (0.25+0.5 мг/мл)</div>' +
+    '<div class="mval">'+berDrops+' кап. ('+berMl+' мл)</div>' +
+    '<div class="msub">+ <strong>'+berSal+' мл</strong> 0.9% NaCl (до '+ch+' мл)<br>До 3 раз/сут</div></div>' +
+    '<div class="mbox m-ok"><div class="mlbl">Будесонид / Пульмикорт</div>' +
+    '<div class="mval">'+budMg+' мг</div>' +
+    '<div class="msub">0.25 мг/мл: '+budMl025+' мл | 0.5 мг/мл: '+budMl05+' мл<br>+ <strong>'+budSal+' мл</strong> 0.9% NaCl (умыть лицо!)</div></div>' +
+    '<div class="mbox"><div class="mlbl">Атровент (0.25 мг/мл)</div>' +
+    '<div class="mval">'+atrDrops+' кап. ('+atrMl+' мл)</div>' +
+    '<div class="msub">+ <strong>'+atrSal+' мл</strong> 0.9% NaCl (до '+ch+' мл)<br>3–4 раза/сут</div></div>';
+
+  document.getElementById('nEmr').value =
+    'Небулайзерная терапия (масса '+w+' кг, камера '+ch+' мл): Беродуал '+berDrops+' кап. + '+berSal+' мл 0.9% NaCl; ' +
+    'Будесонид '+budMg+' мг ('+budMl05+' мл сусп. 0.5 мг/мл) + '+budSal+' мл 0.9% NaCl; Атровент '+atrDrops+' кап. + '+atrSal+' мл 0.9% NaCl.';
+}
+
+/* 5. MEDS BY WEIGHT */
+var MEDS = {
+  amox45:{n:'Амоксициллин',mgKg:45,freq:2,max:2000,days:7,forms:[{l:'Сусп. 250 мг/5 мл (100 мл)',u:50,pack:100},{l:'Сусп. 500 мг/5 мл (100 мл)',u:100,pack:100}]},
+  amox90:{n:'Амоксициллин (высокие дозы)',mgKg:90,freq:2,max:3000,days:7,forms:[{l:'Сусп. 250 мг/5 мл (100 мл)',u:50,pack:100},{l:'Сусп. 500 мг/5 мл (100 мл)',u:100,pack:100}]},
+  clav45:{n:'Амоксиклав',mgKg:45,freq:2,max:1750,days:7,forms:[{l:'Сусп. 400/57 мг в 5 мл (7:1, 70 мл)',u:80,pack:70,r:7},{l:'Сусп. 250/62.5 мг в 5 мл (4:1, 100 мл)',u:50,pack:100,r:4}]},
+  clav90:{n:'Амоксиклав (высокие дозы)',mgKg:90,freq:2,max:4000,days:7,forms:[{l:'Сусп. ЕС 600/42.9 мг в 5 мл (14:1, 100 мл)',u:120,pack:100,r:14},{l:'Сусп. 400/57 мг в 5 мл (7:1, 70 мл)',u:80,pack:70,r:7}]},
+  azithro:{n:'Азитромицин',mgKg:10,freq:1,max:500,days:3,forms:[{l:'Сусп. 200 мг/5 мл (15 мл)',u:40,pack:15},{l:'Сусп. 100 мг/5 мл (20 мл)',u:20,pack:20}]},
+  clarithro:{n:'Кларитромицин',mgKg:15,freq:2,max:1000,days:7,forms:[{l:'Сусп. 125 мг/5 мл (60 мл)',u:25,pack:60},{l:'Сусп. 250 мг/5 мл (60 мл)',u:50,pack:60}]},
+  ferrum:{n:'Феррум Лек (Fe³⁺)',mgKg:4,freq:2,max:200,days:60,forms:[{l:'Сироп 50 мг/5 мл (100 мл)',u:10,pack:100}]},
+  ambroxol:{n:'Амброксол',mgKg:1.5,freq:2,max:90,days:5,forms:[{l:'Сироп 15 мг/5 мл (100 мл)',u:3,pack:100},{l:'Сироп 30 мг/5 мл (100 мл)',u:6,pack:100}]}
+};
+function onMedChange(){
+  var k = document.getElementById('mDrug').value;
+  var cfg = MEDS[k];
+  var sel = document.getElementById('mForm');
+  var h = '';
+  for(var i=0;i<cfg.forms.length;i++) h += '<option value="'+i+'">'+cfg.forms[i].l+'</option>';
+  sel.innerHTML = h;
+  document.getElementById('mDays').value = cfg.days;
+  calcMed();
+}
+function calcMed(){
+  var cfg = MEDS[document.getElementById('mDrug').value];
+  var f = cfg.forms[parseInt(document.getElementById('mForm').value,10)||0];
+  var w = Math.max(2,parseFloat(document.getElementById('mW').value)||16);
+  var days = Math.max(1,parseInt(document.getElementById('mDays').value,10)||7);
+
+  var dayMg = Math.min(cfg.max, +(w*cfg.mgKg).toFixed(1));
+  var onceMg = +(dayMg/cfg.freq).toFixed(1);
+  var onceMl = +(onceMg/f.u).toFixed(1);
+  var totalMl = +(onceMl*cfg.freq*days).toFixed(1);
+  var packs = Math.ceil(totalMl/f.pack);
+
+  var al = document.getElementById('mAlert');
+  if(f.r){
+    var clavKg = (dayMg/f.r)/w;
+    al.className = 'alert '+(clavKg>10?'a-err':'a-ok');
+    al.innerHTML = clavKg>10
+      ? '<strong>Превышение клавулановой кислоты:</strong> '+clavKg.toFixed(1)+' мг/кг/сут (норма ≤ 10 мг/кг/сут). Выберите форму 7:1 или 14:1!'
+      : '<strong>Клавулановая кислота:</strong> '+clavKg.toFixed(1)+' мг/кг/сут (безопасно, ≤ 10 мг/кг/сут).';
+    al.classList.remove('hide');
+  } else { al.classList.add('hide'); }
+
+  document.getElementById('mOut').innerHTML =
+    '<div class="mbox m-ok"><div class="mlbl">Разовая доза ('+cfg.freq+' р/сут)</div><div class="mval">'+onceMl+' мл</div><div class="msub">'+onceMg+' мг на приём</div></div>' +
+    '<div class="mbox"><div class="mlbl">Суточная доза</div><div class="mval">'+dayMg+' мг</div><div class="msub">'+(onceMl*cfg.freq).toFixed(1)+' мл/сут</div></div>' +
+    '<div class="mbox m-sky"><div class="mlbl">На курс ('+days+' дн)</div><div class="mval">'+packs+' фл.</div><div class="msub">Всего '+totalMl+' мл</div></div>';
+
+  document.getElementById('mEmr').value =
+    'Назначение (масса '+w+' кг): '+cfg.n+' ('+f.l+') по '+onceMl+' мл ('+onceMg+' мг) '+cfg.freq+' раз(а) в сутки внутрь курсом '+days+' дней. Потребуется '+packs+' фл.';
+}
+
+/* 6. GANZONI */
+function syncGanAuto(){
+  var w = parseFloat(document.getElementById('zW').value)||55;
+  document.getElementById('zTarg').value = w>=35 ? 130 : 120;
+  document.getElementById('zDep').value = w>=35 ? 500 : Math.round(w*15);
+  calcGan();
+}
+function calcGan(){
+  var w = Math.max(4,parseFloat(document.getElementById('zW').value)||55);
+  var c = parseFloat(document.getElementById('zCurr').value)||88;
+  var t = parseFloat(document.getElementById('zTarg').value)||130;
+  var dep = Math.max(0,parseFloat(document.getElementById('zDep').value)||500);
+
+  var hbFe = Math.max(0,Math.round(w*(t-c)*0.24));
+  var tot = hbFe + dep;
+  var amps = Math.ceil(tot/100);
+  var oralDays = Math.ceil(tot/(w>=35 ? 100 : Math.max(20,w*3)));
+
+  document.getElementById('zOut').innerHTML =
+    '<div class="mbox m-warn"><div class="mlbl">Общий дефицит Fe</div><div class="mval">'+tot+' мг</div><div class="msub">На Hb: '+hbFe+' мг + Депо: '+dep+' мг</div></div>' +
+    '<div class="mbox m-sky"><div class="mlbl">Феррум Лек в/м (100 мг/2 мл)</div><div class="mval">'+amps+' ампул</div><div class="msub">По 2 мл в/м через день (~'+(amps*2)+' дн)</div></div>' +
+    '<div class="mbox"><div class="mlbl">Ориентир перорального курса</div><div class="mval">~'+oralDays+' дн</div><div class="msub">С учётом всасывания ~10–15% — 3–6 мес</div></div>';
+
+  document.getElementById('zEmr').value =
+    'Расчёт дефицита железа по формуле Ганцони (масса '+w+' кг, Hb '+c+' -> '+t+' г/л, депо '+dep+' мг): ' +
+    'общий дефицит Fe = '+tot+' мг ('+hbFe+' мг на синтез Hb + '+dep+' мг депо). Потребность: '+amps+' амп. Феррум Лек 100 мг/2 мл.';
+}
+
+/* 7. CEFTRIAXONE */
+function calcCef(){
+  var w = Math.max(1.5,parseFloat(document.getElementById('cW').value)||16);
+  var reg = document.getElementById('cReg').value;
+  var vial = parseFloat(document.getElementById('cVial').value)||1000;
+  var solv = parseFloat(document.getElementById('cSolv').value)||3.5;
+
+  var dayMg = 0, freq = 1, desc = '';
+  if(reg==='adult1'){ dayMg=1000; freq=1; desc='1000 мг 1 р/сут'; }
+  else if(reg==='adult2'){ dayMg=2000; freq=2; desc='2000 мг/сут (по 1000 мг 2 р/сут)'; }
+  else {
+    var mk = parseFloat(reg);
+    freq = mk>=80 ? 2 : 1;
+    dayMg = Math.min(mk>=100?4000:2000, Math.round(w*mk));
+    desc = mk+' мг/кг/сут';
+  }
+  var onceMg = Math.round(dayMg/freq);
+  var conc = vial/solv;
+  var drawMl = +(onceMg/conc).toFixed(2);
+
+  document.getElementById('cOut').innerHTML =
+    '<div class="mbox"><div class="mlbl">Суточная доза</div><div class="mval">'+dayMg+' мг/сут</div><div class="msub">Режим: '+desc+'</div></div>' +
+    '<div class="mbox m-ok"><div class="mlbl">Разовая доза ('+freq+' р/сут)</div><div class="mval">'+onceMg+' мг</div><div class="msub">Каждые '+(24/freq)+' ч</div></div>' +
+    '<div class="mbox m-sky"><div class="mlbl">Набрать в шприц</div><div class="mval">'+drawMl+' мл</div><div class="msub">Фл. '+vial+' мг + '+solv+' мл ('+conc.toFixed(0)+' мг/мл)</div></div>';
+
+  document.getElementById('cEmr').value =
+    'Цефтриаксон (масса '+w+' кг, '+desc+'): по '+onceMg+' мг '+freq+' раз(а) в сутки (суточная доза '+dayMg+' мг). ' +
+    'При разведении флакона '+vial+' мг в '+solv+' мл растворителя набирать по '+drawMl+' мл.';
+}
+
+/* 8. ORDER 203N */
+var D203 = [
+  {id:'j03',c:'J03',t:'Острый тонзиллит',items:['Выполнена фарингоскопия и оценка по шкале МакАйзека','Проведён экспресс-тест на БГСА (стрептатест) или посев до антибиотика','При БГСА назначен амоксициллин / пенициллин курсом 10 дней','Оценка клинической эффективности через 48–72 часа']},
+  {id:'j20',c:'J20',t:'Острый бронхит',items:['Выполнена аускультация лёгких, подсчёт ЧДД и пульсоксиметрия','Исключена пневмония (рентгенография ОГК при показаниях)','Не назначены системные антибиотики при неосложнённом вирусном бронхите']},
+  {id:'j18',c:'J18',t:'Внебольничная пневмония',items:['Выполнена пульсоксиметрия (SpO2), подсчёт ЧДД и аускультация лёгких','Выполнена рентгенография ОГК в 2 проекциях и ОАК','Назначен стартовый антибиотик не позднее 8 ч (амб.) / 4 ч (стац.)','Проведена оценка эффективности терапии через 48–72 часа']},
+  {id:'h66',c:'H66',t:'Острый средний отит',items:['Выполнена отоскопия с описанием барабанной перепонки','Назначено системное обезболивание (ибупрофен / парацетамол)','Антибиотик назначен строго по показаниям (возраст <2 лет с гнойным отитом, оторея, тяжёлое течение)']},
+  {id:'j01',c:'J01',t:'Острый синусит',items:['Выполнена передняя риноскопия и фарингоскопия','Назначена ирригационная терапия 0.9% NaCl и интраназальные ГКС','Антибиотик назначен при бактериальном синусите (>10 дней или вторая волна лихорадки)']},
+  {id:'j05',c:'J05.0',t:'ОСЛТ (круп)',items:['Оценена степень стеноза гортани и выполнена пульсоксиметрия','Проведена ингаляция будесонида 2 мг и/или введён дексаметазон','Оценена динамика через 30–60 минут; при стенозе II–III ст. — госпитализация']},
+  {id:'d50',c:'D50',t:'Железодефицитная анемия',items:['Выполнен ОАК с эритроцитарными индексами (MCV, MCH) и ретикулоцитами','Определён сывороточный ферритин до начала ферротерапии','Назначен препарат железа 3–5 мг/кг/сут с контролем ОАК через 4 недели']},
+  {id:'a09',c:'A09',t:'Острый гастроэнтерит',items:['Оценена степень эксикоза, масса тела и диурез','Назначена пероральная регидратация гипоосмолярными растворами','Исключены лоперамид и необоснованные антибиотики при водянистой диарее']},
+  {id:'n39',c:'N10 / N39.0',t:'ИМВП / пиелонефрит',items:['Выполнен ОАМ и бакпосев мочи ДО первой дозы антибиотика','Выполнено УЗИ почек и мочевого пузыря и ОАК','Назначена стартовая антибактериальная терапия с контролем через 48–72 часа']},
+  {id:'l20',c:'L20',t:'Атопический дерматит',items:['Оценена распространённость и тяжесть кожных проявлений','Назначен базовый уход эмолентами ежедневно','Назначена наружная противовоспалительная терапия (тГКС / ингибиторы кальциневрина)']}
+];
+var marks203 = {};
+function init203(){
+  var sel = document.getElementById('p203Sel');
+  var h = '';
+  for(var i=0;i<D203.length;i++) h += '<option value="'+D203[i].id+'">'+D203[i].c+' — '+D203[i].t+'</option>';
+  sel.innerHTML = h;
+  render203();
+}
+function setM203(k,v){ marks203[k]=v; render203(); }
+function markAll203(v){
+  var id = document.getElementById('p203Sel').value;
+  var d = D203[0];
+  for(var i=0;i<D203.length;i++) if(D203[i].id===id) d=D203[i];
+  for(var j=0;j<d.items.length;j++){ if(v) marks203[id+'_'+j]=v; else delete marks203[id+'_'+j]; }
+  render203();
+}
+function render203(){
+  var id = document.getElementById('p203Sel').value;
+  var d = D203[0];
+  for(var i=0;i<D203.length;i++) if(D203[i].id===id) d=D203[i];
+  var tb = document.getElementById('p203Body');
+  var h = '', yes = 0, app = 0, bad = [];
+  for(var j=0;j<d.items.length;j++){
+    var k = id+'_'+j, m = marks203[k]||'';
+    if(m==='y'){ yes++; app++; } else if(m==='n'){ app++; bad.push((j+1)+'. '+d.items[j]); }
+    h += '<tr'+(m==='n'?' style="background:#fef2f2"':'')+'><td><strong>'+(j+1)+'</strong></td><td>'+d.items[j]+'</td>' +
+         '<td style="text-align:center"><div class="mgrp">' +
+         '<button class="mbtn'+(m==='y'?' y':'')+'" onclick="setM203(\''+k+'\',\'y\')">Да</button>' +
+         '<button class="mbtn'+(m==='n'?' n':'')+'" onclick="setM203(\''+k+'\',\'n\')">Нет</button>' +
+         '<button class="mbtn'+(m==='na'?' na':'')+'" onclick="setM203(\''+k+'\',\'na\')">Н/П</button></div></td></tr>';
+  }
+  tb.innerHTML = h;
+  var pct = app===0 ? 100 : Math.round(yes/app*100);
+  var b = document.getElementById('p203Badge');
+  b.textContent = app===0 ? 'Не оценено' : 'Выполнено: '+pct+'% ('+yes+'/'+app+')';
+  b.className = 'pill '+(app===0?'p-gray':(pct===100?'p-ok':(pct>=70?'p-warn':'p-err')));
+  document.getElementById('p203Bar').style.width = (app===0?0:pct)+'%';
+  var w = document.getElementById('p203Warn');
+  if(bad.length){ w.classList.remove('hide'); w.innerHTML='<strong>Риск дефекта ЭКМП:</strong> не выполнено '+bad.length+' критериев ('+bad.join('; ')+').'; }
+  else w.classList.add('hide');
+
+  document.getElementById('p203Emr').value =
+    'Самоконтроль КМП по Приказу МЗ РФ № 203н ('+d.c+' — '+d.t+'): ' +
+    (app===0 ? 'критерии не оценены.' : 'выполнено '+yes+' из '+app+' применимых критериев ('+pct+'%). '+(bad.length?'Не выполнено: '+bad.join('; ')+'.':'Нарушений нет.'));
+}
+
+/* 9. CLINICAL GUIDELINES */
+var KR = [
+  {c:'J06.9',t:'ОРИ / ОРВИ у детей',tx:'Ирригация 0.9% NaCl, питьё, парацетамол/ибупрофен при t≥38.5°C. Антибиотики не показаны.',rf:'SpO2 <92%, отказ от питья, возраст <3 мес с лихорадкой >38°C.'},
+  {c:'J02–J03',t:'Острый тонзиллофарингит',tx:'Стрептатест до АБ. При БГСА: Амоксициллин 50 мг/кг/сут 10 дней.',rf:'Паратонзиллярный абсцесс, тризм, невозможность глотать.'},
+  {c:'J20',t:'Острый бронхит у детей',tx:'Обильное питьё, увлажнение воздуха. Бронхолитики при бронхообструкции; АБ не показаны при вирусной природе.',rf:'Тахипноэ, втяжение уступчивых мест, SpO2 <92%.'},
+  {c:'J18',t:'Внебольничная пневмония',tx:'Амоксициллин 45–50 (или 80–90) мг/кг/сут 5–7 дней; при атипичной флоре — макролиды.',rf:'SpO2 <92%, плеврит, возраст <6 мес, нет эффекта через 48 ч.'},
+  {c:'H65–H66',t:'Острый средний отит',tx:'Ибупрофен 10 мг/кг или парацетамол 15 мг/кг. Амоксициллин 50–80 мг/кг/сут детям <2 лет с гнойным отитом, при оторее.',rf:'Мастоидит, отёк заушной области, менингеальные знаки.'},
+  {c:'J05.0',t:'Острый обструктивный ларингит (круп)',tx:'Будесонид 2 мг через небулайзер и/или дексаметазон 0.15–0.6 мг/кг.',rf:'Стеноз гортани II–III ст., инспираторный стридор в покое.'},
+  {c:'D50',t:'Железодефицитная анемия у детей',tx:'Препараты Fe внутрь 3–5 мг/кг/сут в течение 3–6 мес; контроль ОАК через 4 нед.',rf:'Hb <70 г/л с гемодинамическими нарушениями.'},
+  {c:'A09',t:'Острые кишечные инфекции (ОКИ)',tx:'Пероральная регидратация гипоосмолярными растворами 50–100 мл/кг за 4 ч, диета без голодной паузы.',rf:'Эксикоз II–III ст., анурия >6 ч, гемоколит с фебрильной лихорадкой.'},
+  {c:'N10 / N39.0',t:'Инфекция мочевыводящих путей',tx:'Посев мочи до АБ! Пиелонефрит: цефиксим 8 мг/кг или амоксиклав 45 мг/кг 7–10 дней.',rf:'Возраст <3 мес, неукротимая рвота, признаки уросепсиса.'},
+  {c:'L20',t:'Атопический дерматит у детей',tx:'Ежедневные эмоленты + топические ГКС или ингибиторы кальциневрина при обострении.',rf:'Герпетическая экзема Капоши, распространённая пиодермия.'}
+];
+function renderKR(){
+  var q = (document.getElementById('krFilter').value||'').trim().toLowerCase();
+  var g = document.getElementById('krGrid');
+  var h = '';
+  for(var i=0;i<KR.length;i++){
+    var k = KR[i];
+    if(q && (k.c+' '+k.t+' '+k.tx).toLowerCase().indexOf(q)===-1) continue;
+    var plan = 'План ведения по КР МЗ РФ ('+k.t+', МКБ-10: '+k.c+'): '+k.tx+' Красные флаги разъяснены: '+k.rf;
+    h += '<div class="kr-item"><div><div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:4px">' +
+         '<strong>'+k.t+'</strong><span class="pill p-sky">'+k.c+'</span></div>' +
+         '<div style="font-size:12px;margin-bottom:6px"><strong>Тактика:</strong> '+k.tx+'</div>' +
+         '<div class="alert a-err" style="margin:0;padding:7px 9px"><strong>Красные флаги:</strong> '+k.rf+'</div></div>' +
+         '<div style="text-align:right"><textarea id="krTa'+i+'" style="position:absolute;left:-9999px">'+plan+'</textarea>' +
+         '<button class="btn" onclick="copyEl(\'krTa'+i+'\')">Скопировать план в ЭМК</button></div></div>';
+  }
+  g.innerHTML = h || '<div class="alert a-info" style="grid-column:1/-1;margin:0">Рекомендации не найдены.</div>';
+}
+
+window.addEventListener('DOMContentLoaded', function(){
+  try{ renderNav(); }catch(e){}
+  try{ calcGrowth(); }catch(e){}
+  try{ calcFormula(); }catch(e){}
+  try{ calcAnti(); }catch(e){}
+  try{ calcNeb(); }catch(e){}
+  try{ onMedChange(); }catch(e){}
+  try{ calcGan(); }catch(e){}
+  try{ calcCef(); }catch(e){}
+  try{ init203(); }catch(e){}
+  try{ renderKR(); }catch(e){}
+});
+</script>
+</body>
+</html>
