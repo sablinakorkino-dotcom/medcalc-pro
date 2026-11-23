@@ -7666,13 +7666,14 @@ document.addEventListener('DOMContentLoaded',()=>{if(!get('patient-workspace'))r
   window.audit203Reset=()=>audit203Render();
   window.audit203Report=function(){
     const lines=['ПРИКАЗ МИНЗДРАВА РОССИИ ОТ 14.04.2025 № 203н','Подраздел 1.58. Шигеллёз — первичная медико-санитарная помощь взрослым и детям','Дата формирования: '+new Date().toLocaleDateString('ru-RU'),''];
-    let missing=false;
-    items.forEach((t,i)=>{const v=$('audit203-answer-'+i)?.value||'Не оценено';const reason=$('audit203-reason-'+i)?.value.trim()||'';if(v==='Не применимо'&&!reason)missing=true;lines.push((i+1)+'. '+t+' — '+v+(reason?' (обоснование: '+reason+')':''));});
+    let missing=false, unanswered=false;
+    items.forEach((t,i)=>{const v=$('audit203-answer-'+i)?.value||'Не оценено';const reason=$('audit203-reason-'+i)?.value.trim()||'';if(v==='Не применимо'&&!reason)missing=true;if(v==='Не оценено')unanswered=true;lines.push((i+1)+'. '+t+' — '+v+(reason?' (обоснование: '+reason+')':''));});
     if(missing){$('audit203-output').value='Укажите обоснование для каждого ответа «Не применимо» перед формированием протокола.';return;}
+    if(unanswered){$('audit203-output').value='Оцените все четыре критерия перед формированием протокола. Для неприменимых критериев укажите обоснование.';return;}
     lines.push('','Примечание: для отметок «Не применимо» требуется отдельное обоснование в медицинской документации.','Черновик для проверки врачом; не является автоматическим заключением о качестве медицинской помощи.');
     $('audit203-output').value=lines.join('\n');
   };
-  window.audit203Copy=async function(){const t=$('audit203-output').value;if(!t)return;try{await navigator.clipboard.writeText(t)}catch(e){$('audit203-output').select();document.execCommand('copy')}};
+  window.audit203Copy=async function(){const t=$('audit203-output').value;if(!t||t.startsWith('Оцените все четыре')||t.startsWith('Укажите обоснование'))return;try{await navigator.clipboard.writeText(t)}catch(e){$('audit203-output').select();document.execCommand('copy')}};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',audit203Render);else audit203Render();
 })();
 </script>
